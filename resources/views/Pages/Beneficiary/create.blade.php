@@ -24,7 +24,7 @@
             <div class="flex-grow border-t border-gray-300 mr-5"></div>
         </div>
 
-        <div class="m-5 p-5 bg-white shadow-sm rounded">
+        <div class="m-5 p-5 bg-white border border-gray-300 rounded">
             <div class="w-full flex space-x-2">
                 <div class="w-full">
                     <label for="firstname">First Name:<span class="text-red-500">*</span></label>
