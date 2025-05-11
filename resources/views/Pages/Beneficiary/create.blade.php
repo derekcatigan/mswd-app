@@ -18,6 +18,12 @@
 
     <form action="" method="POST">
         @csrf
+
+        <div class="flex items-center ms-5">
+            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Create</span>
+            <div class="flex-grow border-t border-gray-300 mr-5"></div>
+        </div>
+
         <div class="m-5 p-5 bg-white shadow-sm rounded">
             <div class="w-full flex space-x-2">
                 <div class="w-full">
