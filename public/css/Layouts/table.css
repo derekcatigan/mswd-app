@@ -1,0 +1,19 @@
+/* public\css\Layouts\table.css */
+.table-responsive {
+    overflow-x: auto;
+    background: #ffff;
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+}
+
+.custom-table {
+    width: 100%;
+    font-size: 0.9rem;
+    color: #364153;
+    border-collapse: collapse;
+}
+
+.custom-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dddddd;
+}

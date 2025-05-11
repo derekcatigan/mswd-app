@@ -1,0 +1,54 @@
+{{-- resources\views\Pages\beneficiary.blade.php --}}
+@extends('Layouts.layout')
+
+@section('head')
+@endsection
+
+@section('content')
+    {{-- Search and Add Beneficiary Section --}}
+    <div class="flex items-center justify-between mb-4 p-5">
+        {{-- Search Input --}}
+        <div class="relative w-72 bg-white">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" />
+                </svg>
+            </span>
+            <input type="text" placeholder="Search beneficiary..."
+                class="w-full pl-9 p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200">
+        </div>
+
+        {{-- Add Beneficiary Button --}}
+        <a href="{{ route('beneficiary.create') }}"
+            class="flex items-center gap-1 bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Beneficiary
+        </a>
+    </div>
+
+    {{-- Beneficiary Table --}}
+    <div class="p-5">
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead class="bg-slate-200">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">Name</th>
+                        <th class="px-4 py-3 font-medium">Address</th>
+                        <th class="px-4 py-3 font-medium">Status</th>
+                        <th class="px-4 py-3 font-medium text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="beneficiaryTable">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+@section('scripts')
+@endsection
+@endsection

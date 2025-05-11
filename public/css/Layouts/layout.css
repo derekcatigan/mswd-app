@@ -1,0 +1,68 @@
+/* public\css\Layouts\layout.css */
+body {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+        "sidebar navbar"
+        "sidebar main";
+    height: 100vh;
+}
+
+.navbar {
+    grid-area: navbar;
+    background: #ffff;
+    border: 1px solid #dedede;
+    padding: 5px;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    border: 1px solid #dedede;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.sidebar li {
+    padding: 0 10px;
+}
+.sidebar a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    font-size: 0.9rem;
+}
+.sidebar a > i {
+    font-size: 1.125rem;
+}
+.sidebar a:hover {
+    border-radius: 3px;
+    background: #e5e7eb;
+}
+
+.sidebar .logout-container {
+    margin-top: auto;
+    padding: 10px 20px;
+    border-top: 1px solid #dedede;
+}
+
+.sidebar .logout-container button {
+    color: #dc2626;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.sidebar .logout-container button:hover {
+    border-radius: 3px;
+    cursor: pointer;
+    background: #ffacac;
+}
+
+.main-contents {
+    grid-area: main;
+    padding: 5px;
+}
