@@ -27,8 +27,9 @@
         <div class="m-5 p-5 bg-white shadow-sm rounded">
             <div class="w-full flex space-x-2">
                 <div class="w-full">
-                    <label for="firstname">First Name:</label>
-                    <input type="text" name="firstname" id="firstname" placeholder="e.g. John" class="input-text">
+                    <label for="firstname">First Name:<span class="text-red-500">*</span></label>
+                    <input type="text" name="firstname" id="firstname" placeholder="e.g. John" class="input-text"
+                        required>
                 </div>
 
                 <div class="w-full">
@@ -38,8 +39,8 @@
                 </div>
 
                 <div class="w-full">
-                    <label for="lastname">Last Name:</label>
-                    <input type="text" name="lastname" id="lastname" placeholder="e.g. Doe" class="input-text">
+                    <label for="lastname">Last Name:<span class="text-red-500">*</span></label>
+                    <input type="text" name="lastname" id="lastname" placeholder="e.g. Doe" class="input-text" required>
                 </div>
 
                 <div class="w-full">
@@ -57,8 +58,8 @@
             <br>
             <div class="w-full flex space-x-2">
                 <div class="w-full">
-                    <label for="sex">Sex:</label>
-                    <select name="sex" id="sex" class="input-select">
+                    <label for="sex">Sex:<span class="text-red-500">*</span></label>
+                    <select name="sex" id="sex" class="input-select" required>
                         <option value="">Select Sex</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -66,8 +67,8 @@
                 </div>
 
                 <div class="w-full">
-                    <label for="birthdate">Birthdate:</label>
-                    <input type="date" name="birthdate" id="birthdate" class="input-text">
+                    <label for="birthdate">Birthdate:<span class="text-red-500">*</span></label>
+                    <input type="date" name="birthdate" id="birthdate" class="input-text" required>
                 </div>
 
                 <div class="w-full">
@@ -76,8 +77,8 @@
                 </div>
 
                 <div class="w-full">
-                    <label for="status">Status:</label>
-                    <select name="status" id="status" class="input-select">
+                    <label for="status">Status:<span class="text-red-500">*</span></label>
+                    <select name="status" id="status" class="input-select" required>
                         <option value="">Select status</option>
                         <option value="PWD">PWD</option>
                         <option value="Regular Client">Regular Client</option>
@@ -96,7 +97,7 @@
                 </div>
 
                 <div class="w-full">
-                    <label for="barangay">Barangay:</label>
+                    <label for="barangay">Barangay:<span class="text-red-500">*</span></label>
 
                     <div class="relative">
                         <button id="dropdownButton" type="button"
@@ -118,7 +119,7 @@
                                 <!-- Barangay list items go here -->
                             </ul>
                         </div>
-                        <input type="hidden" name="barangay" id="barangayValue">
+                        <input type="hidden" name="barangay" id="barangayValue" required>
                     </div>
                 </div>
 
@@ -152,6 +153,11 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="flex items-center ms-5">
+            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Services</span>
+            <div class="flex-grow border-t border-gray-300 mr-5"></div>
         </div>
     </form>
 
