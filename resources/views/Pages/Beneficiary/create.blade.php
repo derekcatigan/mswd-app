@@ -159,57 +159,142 @@
             <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Services</span>
             <div class="flex-grow border-t border-gray-300 mr-5"></div>
         </div>
+
+        <div class="m-5 p-5 bg-white border border-gray-300 rounded">
+            <div class="w-full flex space-x-2">
+                <div class="w-full">
+                    <label for="serviceType">Service Type:<span class="text-red-500">*</span></label>
+                    <select name="serviceType" id="serviceType" class="input-select" required>
+                        <option value="">Select type</option>
+                        <option value="AICS">AICS</option>
+                        <option value="Woman">Woman</option>
+                        <option value="Child or Youth">Child or Youth</option>
+                        <option value="CAR">CAR</option>
+                        <option value="CICL">CICL</option>
+                    </select>
+                </div>
+
+                <div class="w-full">
+                    <label for="service">Service:<span class="text-red-500">*</span></label>
+
+                    <div class="relative">
+                        <button id="serviceDropdownButton" type="button"
+                            class="w-full min-h-10 p-2 text-sm border border-gray-300 rounded focus:outline-none flex justify-between items-center">
+                            <span id="selectedService">Select Service</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div id="serviceDropdownMenu"
+                            class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow mt-1 hidden">
+                            <input type="text" id="serviceSearch" placeholder="Search service..."
+                                class="w-full p-2 text-sm border-b border-gray-200 focus:outline-none">
+
+                            <ul id="serviceList" class="max-h-40 overflow-y-auto">
+
+                            </ul>
+                        </div>
+                        <input type="hidden" name="service" id="serviceValue" required>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </form>
 
 @section('scripts')
     <script>
         $(document).ready(function() {
-            const barangays = [
-                "Benit", "Buac Daku", "Buac Gamay", "Cabadbaran", "Concepcion", "Consolacion", "Dagsa",
-                "Hibod-hibod", "Hindangan", "Hipantag", "Javier", "Kahupian", "Kanangkaan", "Kauswagan",
-                "La Purisima Concepcion", "Libas", "Lum-an", "Mabicay", "Mac", "Magatas", "Malinao",
-                "Maria Plana", "Milagroso", "Olisihan", "Pancho Villa", "Pandan", "Rizal", "Salvacion",
-                "San Francisco Mabuhay", "San Isidro", "San Jose", "San Juan", "San Miguel", "San Pedro",
-                "San Roque", "San Vicente", "Santa Maria", "Suba", "Tampoong", "Zone I", "Zone II", "Zone III",
-                "Zone IV", "Zone V",
-            ];
+            function initDropdown({
+                buttonId,
+                menuId,
+                searchInputId,
+                listId,
+                valueInputId,
+                displaySpanId,
+                items
+            }) {
+                const $button = $('#' + buttonId);
+                const $menu = $('#' + menuId);
+                const $search = $('#' + searchInputId);
+                const $list = $('#' + listId);
+                const $value = $('#' + valueInputId);
+                const $display = $('#' + displaySpanId);
 
-            // Toggle dropdown
-            $('#dropdownButton').click(function() {
-                $('#dropdownMenu').toggle();
-            });
+                function populateList(filtered = items) {
+                    $list.empty();
+                    filtered.forEach(function(item) {
+                        $list.append(
+                            `<li class="p-2 text-sm hover:bg-gray-100 cursor-pointer">${item}</li>`);
+                    });
+                }
 
-            // Populate barangay list
-            function populateBarangayList(filteredList = barangays) {
-                $('#barangayList').empty();
-                filteredList.forEach(function(b) {
-                    $('#barangayList').append(
-                        `<li class="p-2 text-sm hover:bg-gray-100 cursor-pointer">${b}</li>`);
+                populateList();
+
+                $button.click(function() {
+                    $menu.toggle();
+                });
+
+                $search.on('input', function() {
+                    const val = $(this).val().toLowerCase();
+                    const filtered = items.filter(item => item.toLowerCase().includes(val));
+                    populateList(filtered);
+                });
+
+                $(document).on('click', `#${listId} li`, function() {
+                    const selected = $(this).text();
+                    $display.text(selected);
+                    $value.val(selected);
+                    $menu.hide();
+                });
+
+                $(document).click(function(event) {
+                    if (!$(event.target).closest(`#${buttonId}, #${menuId}`).length) {
+                        $menu.hide();
+                    }
                 });
             }
 
-            populateBarangayList();
-
-            // Barangay selection
-            $(document).on('click', '#barangayList li', function() {
-                const selected = $(this).text();
-                $('#selectedBarangay').text(selected);
-                $('#barangayValue').val(selected);
-                $('#dropdownMenu').hide();
+            // Init for Barangays
+            initDropdown({
+                buttonId: 'dropdownButton',
+                menuId: 'dropdownMenu',
+                searchInputId: 'barangaySearch',
+                listId: 'barangayList',
+                valueInputId: 'barangayValue',
+                displaySpanId: 'selectedBarangay',
+                items: [
+                    "Benit", "Buac Daku", "Buac Gamay", "Cabadbaran", "Concepcion", "Consolacion",
+                    "Dagsa",
+                    "Hibod-hibod", "Hindangan", "Hipantag", "Javier", "Kahupian", "Kanangkaan",
+                    "Kauswagan",
+                    "La Purisima Concepcion", "Libas", "Lum-an", "Mabicay", "Mac", "Magatas", "Malinao",
+                    "Maria Plana", "Milagroso", "Olisihan", "Pancho Villa", "Pandan", "Rizal",
+                    "Salvacion",
+                    "San Francisco Mabuhay", "San Isidro", "San Jose", "San Juan", "San Miguel",
+                    "San Pedro",
+                    "San Roque", "San Vicente", "Santa Maria", "Suba", "Tampoong", "Zone I", "Zone II",
+                    "Zone III",
+                    "Zone IV", "Zone V"
+                ]
             });
 
-            // Search barangay
-            $('#barangaySearch').on('input', function() {
-                const val = $(this).val().toLowerCase();
-                const filtered = barangays.filter(b => b.toLowerCase().includes(val));
-                populateBarangayList(filtered);
-            });
-
-            // Click outside to close
-            $(document).click(function(event) {
-                if (!$(event.target).closest('#dropdownButton, #dropdownMenu').length) {
-                    $('#dropdownMenu').hide();
-                }
+            // Init for Services
+            initDropdown({
+                buttonId: 'serviceDropdownButton',
+                menuId: 'serviceDropdownMenu',
+                searchInputId: 'serviceSearch',
+                listId: 'serviceList',
+                valueInputId: 'serviceValue',
+                displaySpanId: 'selectedService',
+                items: [
+                    "Burial Assistance", "Counseling", "Financial Assistance", "Food Assistance",
+                    "Hospital Bill", "Medicine Assistance", "Shelter Assistance"
+                ]
             });
         });
     </script>
