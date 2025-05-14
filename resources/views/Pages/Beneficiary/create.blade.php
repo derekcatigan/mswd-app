@@ -19,8 +19,63 @@
     <form action="" method="POST">
         @csrf
 
+        <div class="m-5 p-3 bg-cyan-100 rounded border border-cyan-300">
+            <p class="text-cyan-800">
+                <span class="font-semibold text-cyan-800">Reminder:</span> Ensure to double check all information before
+                submitting.
+            </p>
+        </div>
+
         <div class="flex items-center ms-5">
-            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Create</span>
+            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Services</span>
+            <div class="flex-grow border-t border-gray-300 mr-5"></div>
+        </div>
+
+        <div class="m-5 p-5 bg-white border border-gray-300 rounded">
+            <div class="w-full flex space-x-2">
+                <div class="w-full">
+                    <label for="serviceType">Service Type:<span class="text-red-500">*</span></label>
+                    <select name="serviceType" id="serviceType" class="input-select" required>
+                        <option value="">Select type</option>
+                        <option value="AICS">AICS</option>
+                        <option value="Woman">Woman</option>
+                        <option value="Child or Youth">Child or Youth</option>
+                        <option value="CAR">CAR</option>
+                        <option value="CICL">CICL</option>
+                    </select>
+                </div>
+
+                <div class="w-full">
+                    <label for="service">Services:<span class="text-red-500">*</span></label>
+
+                    <div class="relative">
+                        <button id="serviceDropdownButton" type="button"
+                            class="w-full min-h-10 p-2 text-sm border border-gray-300 rounded focus:outline-none flex justify-between items-center">
+                            <span id="selectedService">Select Service</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div id="serviceDropdownMenu"
+                            class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow mt-1 hidden">
+                            <input type="text" id="serviceSearch" placeholder="Search service..."
+                                class="w-full p-2 text-sm border-b border-gray-200 focus:outline-none">
+
+                            <ul id="serviceList" class="max-h-40 overflow-y-auto">
+
+                            </ul>
+                        </div>
+                        <input type="hidden" name="service" id="serviceValue" required>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex items-center ms-5">
+            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Create Beneficiary</span>
             <div class="flex-grow border-t border-gray-300 mr-5"></div>
         </div>
 
@@ -153,57 +208,13 @@
                 </div>
             </div>
 
-        </div>
-
-        <div class="flex items-center ms-5">
-            <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Services</span>
-            <div class="flex-grow border-t border-gray-300 mr-5"></div>
-        </div>
-
-        <div class="m-5 p-5 bg-white border border-gray-300 rounded">
-            <div class="w-full flex space-x-2">
-                <div class="w-full">
-                    <label for="serviceType">Service Type:<span class="text-red-500">*</span></label>
-                    <select name="serviceType" id="serviceType" class="input-select" required>
-                        <option value="">Select type</option>
-                        <option value="AICS">AICS</option>
-                        <option value="Woman">Woman</option>
-                        <option value="Child or Youth">Child or Youth</option>
-                        <option value="CAR">CAR</option>
-                        <option value="CICL">CICL</option>
-                    </select>
-                </div>
-
-                <div class="w-full">
-                    <label for="service">Service:<span class="text-red-500">*</span></label>
-
-                    <div class="relative">
-                        <button id="serviceDropdownButton" type="button"
-                            class="w-full min-h-10 p-2 text-sm border border-gray-300 rounded focus:outline-none flex justify-between items-center">
-                            <span id="selectedService">Select Service</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <div id="serviceDropdownMenu"
-                            class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow mt-1 hidden">
-                            <input type="text" id="serviceSearch" placeholder="Search service..."
-                                class="w-full p-2 text-sm border-b border-gray-200 focus:outline-none">
-
-                            <ul id="serviceList" class="max-h-40 overflow-y-auto">
-
-                            </ul>
-                        </div>
-                        <input type="hidden" name="service" id="serviceValue" required>
-                    </div>
-                </div>
-
+            <div class="w-full">
+                <button type="submit"
+                    class="bg-blue-500 text-sm text-white font-medium w-full mt-3 p-2 rounded border border-blue-600 cursor-pointer">Submit</button>
             </div>
-
         </div>
+
+
     </form>
 
 @section('scripts')
