@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Beneficiary;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -32,6 +33,7 @@ class BeneficiaryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            // Beneficiary Model
             'firstname' => 'required|string|max:50',
             'middlename' => 'nullable|string|max:50',
             'lastname' => 'required|string|max:50',
@@ -39,20 +41,46 @@ class BeneficiaryController extends Controller
             'sex' => 'required|string',
             'birthdate' => 'required|date',
             'status' => 'required|string',
-        ]);
+            // Address Model
+            'streetname' => 'nullable|string|max:100',
+            'barangay' => 'required|string',
+            'municipality' => 'required|string',
+            'province' => 'required|string',
+            // Service Model
+            'service_type' => 'required|array',
+            'service.*' => 'string'
+        ]); 
 
         try{
             DB::beginTransaction();
 
-            $beneficiary = Beneficiary::create([
-                'firstname' => Str::ucfirst($validated['firstname']),
-                'middlename' => Str::upper($validated['middlename']),
-                'lastname' => Str::ucfirst($validated['lastname']),
-                'suffix' => Str::ucfirst($validated['suffix']),
-                'sex' => Str::ucfirst($validated['sex']),
-                'birthdate' => Str::ucfirst($validated['birthdate']),
-                'status' => Str::ucfirst($validated['status']),
+            // Create beneficiary
+        $beneficiary = Beneficiary::create([
+            'user_id' => Auth::user()->id, 
+            'firstname' => Str::ucfirst($validated['firstname']),
+            'middlename' => Str::upper($validated['middlename']),
+            'lastname' => Str::ucfirst($validated['lastname']),
+            'suffix' => Str::ucfirst($validated['suffix']),
+            'sex' => Str::ucfirst($validated['sex']),
+            'birthdate' => $validated['birthdate'],
+            'status' => Str::ucfirst($validated['status']),
+        ]);
+
+        // Create address
+        $beneficiary->address()->create([
+            'streetname' => $validated['streetname'],
+            'barangay' => $validated['barangay'],
+            'municipality' => $validated['municipality'],
+            'province' => $validated['province'],
+        ]);
+
+        // Create service
+        foreach ($validated['service'] as $service) {
+            $beneficiary->service()->create([
+                'service_type' => $validated['service_type'],
+                'service' => $service,
             ]);
+        }
 
             DB::commit();
             return response()->json([
@@ -64,9 +92,10 @@ class BeneficiaryController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Something went wrong.',
-                'error' => $e->getMessage(),
-            ]);
+            'message' => 'Something went wrong.',
+            'error' => $e->getMessage(),
+            'trace' => $e->getTrace(),
+        ], 500);
         }
 
         

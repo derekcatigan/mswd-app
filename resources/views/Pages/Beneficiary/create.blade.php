@@ -16,7 +16,7 @@
         </a>
     </div>
 
-    <form action="" method="POST">
+    <form action="{{ route('beneficiary.store') }}" method="POST" autocomplete="off">
         @csrf
 
         <div class="m-5 p-3 bg-cyan-100 rounded border border-cyan-300">
@@ -67,11 +67,11 @@
 
                             </ul>
                         </div>
-                        <input type="hidden" name="service" id="serviceValue" required>
+                        <input type="hidden" name="service[]" id="serviceValue" required>
                     </div>
                 </div>
             </div>
-
+            <div id="selectedServicesContainer" class="flex flex-wrap gap-2 mt-3"></div>
         </div>
 
         <div class="flex items-center ms-5">
@@ -213,101 +213,9 @@
                     class="bg-blue-500 text-sm text-white font-medium w-full mt-3 p-2 rounded border border-blue-600 cursor-pointer">Submit</button>
             </div>
         </div>
-
-
     </form>
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            function initDropdown({
-                buttonId,
-                menuId,
-                searchInputId,
-                listId,
-                valueInputId,
-                displaySpanId,
-                items
-            }) {
-                const $button = $('#' + buttonId);
-                const $menu = $('#' + menuId);
-                const $search = $('#' + searchInputId);
-                const $list = $('#' + listId);
-                const $value = $('#' + valueInputId);
-                const $display = $('#' + displaySpanId);
-
-                function populateList(filtered = items) {
-                    $list.empty();
-                    filtered.forEach(function(item) {
-                        $list.append(
-                            `<li class="p-2 text-sm hover:bg-gray-100 cursor-pointer">${item}</li>`);
-                    });
-                }
-
-                populateList();
-
-                $button.click(function() {
-                    $menu.toggle();
-                });
-
-                $search.on('input', function() {
-                    const val = $(this).val().toLowerCase();
-                    const filtered = items.filter(item => item.toLowerCase().includes(val));
-                    populateList(filtered);
-                });
-
-                $(document).on('click', `#${listId} li`, function() {
-                    const selected = $(this).text();
-                    $display.text(selected);
-                    $value.val(selected);
-                    $menu.hide();
-                });
-
-                $(document).click(function(event) {
-                    if (!$(event.target).closest(`#${buttonId}, #${menuId}`).length) {
-                        $menu.hide();
-                    }
-                });
-            }
-
-            // Init for Barangays
-            initDropdown({
-                buttonId: 'dropdownButton',
-                menuId: 'dropdownMenu',
-                searchInputId: 'barangaySearch',
-                listId: 'barangayList',
-                valueInputId: 'barangayValue',
-                displaySpanId: 'selectedBarangay',
-                items: [
-                    "Benit", "Buac Daku", "Buac Gamay", "Cabadbaran", "Concepcion", "Consolacion",
-                    "Dagsa",
-                    "Hibod-hibod", "Hindangan", "Hipantag", "Javier", "Kahupian", "Kanangkaan",
-                    "Kauswagan",
-                    "La Purisima Concepcion", "Libas", "Lum-an", "Mabicay", "Mac", "Magatas", "Malinao",
-                    "Maria Plana", "Milagroso", "Olisihan", "Pancho Villa", "Pandan", "Rizal",
-                    "Salvacion",
-                    "San Francisco Mabuhay", "San Isidro", "San Jose", "San Juan", "San Miguel",
-                    "San Pedro",
-                    "San Roque", "San Vicente", "Santa Maria", "Suba", "Tampoong", "Zone I", "Zone II",
-                    "Zone III",
-                    "Zone IV", "Zone V"
-                ]
-            });
-
-            // Init for Services
-            initDropdown({
-                buttonId: 'serviceDropdownButton',
-                menuId: 'serviceDropdownMenu',
-                searchInputId: 'serviceSearch',
-                listId: 'serviceList',
-                valueInputId: 'serviceValue',
-                displaySpanId: 'selectedService',
-                items: [
-                    "Burial Assistance", "Counseling", "Financial Assistance", "Food Assistance",
-                    "Hospital Bill", "Medicine Assistance", "Shelter Assistance"
-                ]
-            });
-        });
-    </script>
+    <script src="{{ asset('js/Pages/beneficiary.js') }}"></script>
 @endsection
 @endsection

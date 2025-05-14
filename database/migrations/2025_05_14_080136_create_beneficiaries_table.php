@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('sex')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('status')->nullable();
+            $table->longText('category')->nullable();
+            $table->longText('remarks')->nullable();
             $table->timestamps();
         });
     }
