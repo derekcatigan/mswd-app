@@ -11,6 +11,6 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = User::select('name', 'email', 'role')->get();
-        return view('Auth.account', compact(['accounts']));
+        return view('Auth.account', compact('accounts'));
     }
 }
