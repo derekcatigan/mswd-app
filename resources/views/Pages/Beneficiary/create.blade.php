@@ -209,7 +209,7 @@
             </div>
 
             <div class="w-full">
-                <button type="submit"
+                <button type="submit" id="submitBtn"
                     class="bg-blue-500 text-sm text-white font-medium w-full mt-3 p-2 rounded border border-blue-600 cursor-pointer">Submit</button>
             </div>
         </div>
