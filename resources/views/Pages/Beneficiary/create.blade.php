@@ -35,7 +35,7 @@
             <div class="w-full flex space-x-2">
                 <div class="w-full">
                     <label for="serviceType">Service Type:<span class="text-red-500">*</span></label>
-                    <select name="serviceType" id="serviceType" class="input-select" required>
+                    <select name="service_type" id="serviceType" class="input-select" required>
                         <option value="">Select type</option>
                         <option value="AICS">AICS</option>
                         <option value="Woman">Woman</option>

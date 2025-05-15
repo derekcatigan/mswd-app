@@ -49,6 +49,7 @@ $(document).ready(function() {
                     $('#selectedServicesContainer').append(`
                         <span class="badge inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-sm text-sm" data-service="${selected}">
                             ${selected}
+                            <input type="hidden" name="service[]" value="${selected}">
                             <button type="button" class="ml-2 text-blue-500 hover:text-red-600 removeService" data-service="${selected}" title="Remove">
                                 &times;
                             </button>

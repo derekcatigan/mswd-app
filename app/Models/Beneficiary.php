@@ -20,6 +20,8 @@ class Beneficiary extends Model
         "sex",
         "birthdate",
         "status",
+        "category",
+        "remarks",
     ];
 
     public function user(){

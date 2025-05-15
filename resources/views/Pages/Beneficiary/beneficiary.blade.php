@@ -29,6 +29,16 @@
         </a>
     </div>
 
+    @if (session('status'))
+        <div id="responseMessage" class="my-4 hidden">
+            <div id="alertBox">
+                <svg>
+                </svg>
+                <span id="alertMessage"></span>
+            </div>
+        </div>
+    @endif
+
     {{-- Beneficiary Table --}}
     <div class="p-5">
         <div class="table-responsive">
@@ -42,7 +52,16 @@
                     </tr>
                 </thead>
                 <tbody id="beneficiaryTable">
+                    @foreach ($beneficiaries as $beneficiary)
+                        <tr>
+                            <td>{{ $beneficiary->firstname }} {{ $beneficiary->lastname }}</td>
+                            <td class="text-center">{{ $beneficiary->address->barangay ?? 'No address' }}</td>
+                            <td class="text-center">{{ $beneficiary->status }}</td>
+                            <td class="text-center">
 
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

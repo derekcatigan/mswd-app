@@ -16,7 +16,9 @@ class BeneficiaryController extends Controller
      */
     public function index()
     {
-        return view('Pages.Beneficiary.beneficiary');
+        $beneficiaries = Beneficiary::with('address')->get();
+
+        return view('Pages.Beneficiary.beneficiary', compact('beneficiaries'));
     }
 
     /**
@@ -41,34 +43,39 @@ class BeneficiaryController extends Controller
             'sex' => 'required|string',
             'birthdate' => 'required|date',
             'status' => 'required|string',
+            'category' => 'nullable|string|max:1000',
+            'remarks' => 'nullable|string|max:1000',
             // Address Model
             'streetname' => 'nullable|string|max:100',
             'barangay' => 'required|string',
             'municipality' => 'required|string',
             'province' => 'required|string',
             // Service Model
-            'service_type' => 'required|array',
-            'service.*' => 'string'
+            'service_type' => 'required|string',
+            'service' => 'required|array',
+            'service.*' => 'string',
         ]); 
 
         try{
             DB::beginTransaction();
 
             // Create beneficiary
-        $beneficiary = Beneficiary::create([
+        $beneficiary = Beneficiary::firstOrCreate([
             'user_id' => Auth::user()->id, 
-            'firstname' => Str::ucfirst($validated['firstname']),
+            'firstname' => Str::title($validated['firstname']),
             'middlename' => Str::upper($validated['middlename']),
             'lastname' => Str::ucfirst($validated['lastname']),
             'suffix' => Str::ucfirst($validated['suffix']),
             'sex' => Str::ucfirst($validated['sex']),
             'birthdate' => $validated['birthdate'],
             'status' => Str::ucfirst($validated['status']),
+            'category' => Str::ucfirst($validated['category']),
+            'remarks' => Str::ucfirst($validated['remarks']),
         ]);
 
         // Create address
         $beneficiary->address()->create([
-            'streetname' => $validated['streetname'],
+            'streetname' => Str::title($validated['streetname']),
             'barangay' => $validated['barangay'],
             'municipality' => $validated['municipality'],
             'province' => $validated['province'],
@@ -83,10 +90,8 @@ class BeneficiaryController extends Controller
         }
 
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'message' => 'Beneficiary Added!',
-            ]);
+            return redirect()->route('beneficiary.index')->with('success', 'Beneficiary Added!');
+
         }catch(Exception $e){
             DB::rollBack();
 
