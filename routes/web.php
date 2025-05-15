@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     // Beneficiary Routes
     Route::resource('beneficiary', BeneficiaryController::class);
+    Route::get('/ajax/beneficiaries/search', [BeneficiaryController::class, 'search']);
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

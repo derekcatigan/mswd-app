@@ -55,7 +55,7 @@
                             <td class="text-center">{{ $beneficiary->address->barangay ?? 'No address' }}</td>
                             <td class="text-center">{{ $beneficiary->status }}</td>
                             <td class="text-center">
-
+                                {{-- action button here32 --}}
                             </td>
                         </tr>
                     @endforeach

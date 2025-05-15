@@ -138,4 +138,20 @@ class BeneficiaryController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $results = Beneficiary::with('address')
+            ->when($query, function ($q) use ($query) {
+                $q->where('firstname', 'like', "%{$query}%")
+                ->orWhere('lastname', 'like', "%{$query}%");
+            })
+            ->get();
+
+        return response()->json($results);
+    }
+
+
 }
