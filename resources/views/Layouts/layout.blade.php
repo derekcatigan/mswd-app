@@ -125,6 +125,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/Alert/alert.js') }}"></script>
     <script src="{{ asset('js/Layouts/layout.js') }}"></script>
     <script src="{{ asset('js/Auth/logout.js') }}"></script>
     @yield('scripts')

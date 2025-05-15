@@ -29,15 +29,12 @@
         </a>
     </div>
 
-    @if (session('status'))
-        <div id="responseMessage" class="my-4 hidden">
-            <div id="alertBox">
-                <svg>
-                </svg>
-                <span id="alertMessage"></span>
-            </div>
+    <div id="responseMessage" class="m-5 hidden">
+        <div id="alertBox">
+            <svg></svg>
+            <span id="alertMessage"></span>
         </div>
-    @endif
+    </div>
 
     {{-- Beneficiary Table --}}
     <div class="p-5">
@@ -69,5 +66,20 @@
 
 
 @section('scripts')
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                showAlert(@json(session('success')), 'success');
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                showAlert(@json(session('error')), 'error');
+            });
+        </script>
+    @endif
 @endsection
 @endsection

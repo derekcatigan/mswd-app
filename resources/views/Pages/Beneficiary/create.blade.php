@@ -208,6 +208,13 @@
                 </div>
             </div>
 
+            <div id="responseMessage" class="m-5 hidden">
+                <div id="alertBox">
+                    <svg></svg>
+                    <span id="alertMessage"></span>
+                </div>
+            </div>
+
             <div class="w-full">
                 <button type="submit" id="submitBtn"
                     class="bg-blue-500 text-sm text-white font-medium w-full mt-3 p-2 rounded border border-blue-600 cursor-pointer">Submit</button>
@@ -217,5 +224,13 @@
 
 @section('scripts')
     <script src="{{ asset('js/Pages/beneficiary.js') }}"></script>
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                showAlert(@json(session('error')), 'error');
+            });
+        </script>
+    @endif
 @endsection
 @endsection
