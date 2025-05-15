@@ -22,24 +22,6 @@ class BeneficiaryController extends Controller
         return view('Pages.Beneficiary.beneficiary', compact('beneficiaries'));
     }
 
-    public function search(Request $request)
-    {
-        $start = microtime(true);
-
-        $results = Beneficiary::search($request->input('query'))->get();
-
-        Log::info('Search Time: ' . (microtime(true) - $start) . ' seconds');
-
-        return response()->json(
-            $results->map(fn($b) => [
-                'firstname' => $b->firstname,
-                'lastname' => $b->lastname,
-                'status' => $b->status,
-                'address' => $b->address->barangay ?? null,
-            ])
-        );
-    }
-
     /**
      * Show the form for creating a new resource.
      */
