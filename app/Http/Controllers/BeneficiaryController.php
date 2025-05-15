@@ -16,7 +16,7 @@ class BeneficiaryController extends Controller
      */
     public function index()
     {
-        $beneficiaries = Beneficiary::with('address')->get();
+        $beneficiaries = Beneficiary::with('address')->paginate(10);
 
         return view('Pages.Beneficiary.beneficiary', compact('beneficiaries'));
     }
