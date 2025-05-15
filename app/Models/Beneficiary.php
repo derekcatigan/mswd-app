@@ -4,22 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Beneficiary extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $table = "beneficiaries";
-
-    public function toSearchableArray()
-    {
-        return [
-            'id' => (string) $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-        ];
-    }
 
     protected $fillable = [
         "user_id",
