@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class BeneficiaryController extends Controller
@@ -19,6 +20,24 @@ class BeneficiaryController extends Controller
         $beneficiaries = Beneficiary::with('address')->paginate(10);
 
         return view('Pages.Beneficiary.beneficiary', compact('beneficiaries'));
+    }
+
+    public function search(Request $request)
+    {
+        $start = microtime(true);
+
+        $results = Beneficiary::search($request->input('query'))->get();
+
+        Log::info('Search Time: ' . (microtime(true) - $start) . ' seconds');
+
+        return response()->json(
+            $results->map(fn($b) => [
+                'firstname' => $b->firstname,
+                'lastname' => $b->lastname,
+                'status' => $b->status,
+                'address' => $b->address->barangay ?? null,
+            ])
+        );
     }
 
     /**

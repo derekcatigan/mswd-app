@@ -15,7 +15,7 @@
                         d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" />
                 </svg>
             </span>
-            <input type="text" placeholder="Search beneficiary..."
+            <input type="text" id="beneficiarySearch" placeholder="Search beneficiary..."
                 class="w-full pl-9 p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200">
         </div>
 
@@ -68,6 +68,61 @@
         {{ $beneficiaries->links('pagination::tailwind') }}
     </div>
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            const originalTable = $('#beneficiaryTable').html();
+            let debounceTimer;
+            let lastQuery = '';
+
+            $('#beneficiarySearch').on('keyup', function() {
+                const query = $(this).val();
+
+                clearTimeout(debounceTimer);
+
+                debounceTimer = setTimeout(function() {
+                    if (query.length < 2) {
+                        $('#beneficiaryTable').html(originalTable);
+                        lastQuery = '';
+                        return;
+                    }
+
+                    lastQuery = query;
+
+                    // Show loading indicator
+                    $('#beneficiaryTable').html(`
+                        <tr><td colspan="4" class="text-center text-gray-500">Searching...</td></tr>
+                    `);
+                    $.get('/search/beneficiaries', {
+                        query
+                    }, function(data) {
+                        // Ignore if this is an old request
+                        if (query !== lastQuery) return;
+
+                        let rows = '';
+                        if (data.length === 0) {
+                            rows =
+                                `<tr><td colspan="4" class="text-center">No results found</td></tr>`;
+                        } else {
+                            data.forEach(b => {
+                                rows += `
+                                <tr>
+                                    <td>${b.firstname} ${b.lastname}</td>
+                                    <td class="text-center">${b.address ?? 'No address'}</td>
+                                    <td class="text-center">${b.status ?? ''}</td>
+                                    <td class="text-center"></td>
+                                </tr>`;
+                            });
+                        }
+                        $('#beneficiaryTable').html(rows);
+                    });
+
+                }, 20);
+            });
+        });
+    </script>
+
+
+
     @if (session('success'))
         <script>
             $(document).ready(function() {

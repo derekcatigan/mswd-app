@@ -3,8 +3,10 @@
 use App\Http\Controllers\Auth\AccountController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BeneficiaryController;
+use App\Models\Beneficiary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
     // Beneficiary Routes
     Route::resource('beneficiary', BeneficiaryController::class);
+    Route::get('/search/beneficiaries', [BeneficiaryController::class, 'search']);
+
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
