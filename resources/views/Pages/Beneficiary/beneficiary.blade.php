@@ -65,7 +65,7 @@
     </div>
 
     <div class="mx-5">
-        {{ $beneficiaries->links() }}
+        {{ $beneficiaries->links('pagination::tailwind') }}
     </div>
 @section('scripts')
     @if (session('success'))
