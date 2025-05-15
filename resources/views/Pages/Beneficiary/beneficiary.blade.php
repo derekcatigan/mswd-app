@@ -38,7 +38,7 @@
 
     {{-- Beneficiary Table --}}
     <div class="p-5">
-        <div class="table-responsive">
+        <div class="table-responsive h-[485px] max-h-[485px]">
             <table class="custom-table">
                 <thead class="bg-slate-200">
                     <tr>
@@ -65,8 +65,7 @@
     </div>
 
     <div class="mx-5">
-        {{ $beneficiaries->links('pagination::tailwind') }}
-
+        {{ $beneficiaries->links() }}
     </div>
 @section('scripts')
     @if (session('success'))
