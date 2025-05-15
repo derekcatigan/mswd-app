@@ -26,6 +26,13 @@
             </p>
         </div>
 
+        <div id="responseMessage" class="m-5 hidden">
+            <div id="alertBox">
+                <svg></svg>
+                <span id="alertMessage"></span>
+            </div>
+        </div>
+
         <div class="flex items-center ms-5">
             <span class="text-sm font-semibold text-gray-600 uppercase mr-2">Services</span>
             <div class="flex-grow border-t border-gray-300 mr-5"></div>
@@ -39,7 +46,8 @@
                         <option value="">Select type</option>
                         <option value="AICS">AICS</option>
                         <option value="Woman">Woman</option>
-                        <option value="Child or Youth">Child or Youth</option>
+                        <option value="Child or Youth">Child
+                            or Youth</option>
                         <option value="CAR">CAR</option>
                         <option value="CICL">CICL</option>
                     </select>
@@ -135,11 +143,17 @@
                     <label for="status">Status:<span class="text-red-500">*</span></label>
                     <select name="status" id="status" class="input-select" required>
                         <option value="">Select status</option>
-                        <option value="PWD">PWD</option>
-                        <option value="Regular Client">Regular Client</option>
-                        <option value="Child or Youth">Child or Youth</option>
-                        <option value="Senior Citizen">Senior Citizen</option>
-                        <option value="Solo Parent">Solo Parent</option>
+                        <option value="PWD" {{ old('status') == 'PWD' ? 'selected' : '' }}>PWD</option>
+                        <option value="Regular Client">Regular Client
+                        </option>
+                        <option value="Child or Youth">Child or
+                            Youth
+                        </option>
+                        <option value="Senior Citizen">Senior
+                            Citizen
+                        </option>
+                        <option value="Solo Parent">Solo Parent
+                        </option>
                     </select>
                 </div>
             </div>
@@ -178,7 +192,6 @@
                     </div>
                 </div>
 
-
                 <div class="w-full">
                     <label for="municipality">Municipality:</label>
                     <input type="text" name="municipality" id="municipality" value="Sogod" class="input-text"
@@ -205,13 +218,6 @@
                     <textarea name="remarks" id="remarks" rows="3"
                         class="w-full p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
                         placeholder="Additional remarks..."></textarea>
-                </div>
-            </div>
-
-            <div id="responseMessage" class="m-5 hidden">
-                <div id="alertBox">
-                    <svg></svg>
-                    <span id="alertMessage"></span>
                 </div>
             </div>
 

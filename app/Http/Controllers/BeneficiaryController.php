@@ -17,7 +17,9 @@ class BeneficiaryController extends Controller
      */
     public function index()
     {
-        $beneficiaries = Beneficiary::with('address')->paginate(10);
+        $beneficiaries = Beneficiary::with('address')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
 
         return view('Pages.Beneficiary.beneficiary', compact('beneficiaries'));
     }
@@ -35,6 +37,7 @@ class BeneficiaryController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validated = $request->validate([
             // Beneficiary Model
             'firstname' => 'required|string|max:50',
@@ -58,53 +61,62 @@ class BeneficiaryController extends Controller
         ]); 
 
         try{
+
+            $exists = Beneficiary::where('firstname', Str::title($validated['firstname']))
+            ->where('lastname', Str::ucfirst($validated['lastname']))
+            ->where('suffix', Str::ucfirst($validated['suffix']))
+            ->exists();
+        
+
+            if ($exists) {
+                return back()->with('error', 'This beneficiary already exists.');
+            }
+
             DB::beginTransaction();
 
             // Create beneficiary
-        $beneficiary = Beneficiary::firstOrCreate([
-            'user_id' => Auth::user()->id, 
-            'firstname' => Str::title($validated['firstname']),
-            'middlename' => Str::upper($validated['middlename']),
-            'lastname' => Str::ucfirst($validated['lastname']),
-            'suffix' => Str::ucfirst($validated['suffix']),
-            'sex' => Str::ucfirst($validated['sex']),
-            'birthdate' => $validated['birthdate'],
-            'status' => Str::ucfirst($validated['status']),
-            'category' => Str::ucfirst($validated['category']),
-            'remarks' => Str::ucfirst($validated['remarks']),
-        ]);
-
-        // Create address
-        $beneficiary->address()->create([
-            'streetname' => Str::title($validated['streetname']),
-            'barangay' => $validated['barangay'],
-            'municipality' => $validated['municipality'],
-            'province' => $validated['province'],
-        ]);
-
-        // Create service
-        foreach ($validated['service'] as $service) {
-            $beneficiary->service()->create([
-                'service_type' => $validated['service_type'],
-                'service' => $service,
+            $beneficiary = Beneficiary::firstOrCreate([
+                'user_id' => Auth::user()->id, 
+                'firstname' => Str::title($validated['firstname']),
+                'middlename' => Str::upper($validated['middlename']),
+                'lastname' => Str::ucfirst($validated['lastname']),
+                'suffix' => Str::ucfirst($validated['suffix']),
+                'sex' => Str::ucfirst($validated['sex']),
+                'birthdate' => $validated['birthdate'],
+                'status' => Str::ucfirst($validated['status']),
+                'category' => Str::ucfirst($validated['category']),
+                'remarks' => Str::ucfirst($validated['remarks']),
             ]);
+
+            // Create address
+            $beneficiary->address()->create([
+                'streetname' => Str::title($validated['streetname']),
+                'barangay' => $validated['barangay'],
+                'municipality' => $validated['municipality'],
+                'province' => $validated['province'],
+            ]);
+
+            // Create service
+            foreach ($validated['service'] as $service) {
+                $beneficiary->service()->create([
+                    'service_type' => $validated['service_type'],
+                    'service' => $service,
+                ]);
+            }
+
+                DB::commit();
+                return redirect()->route('beneficiary.index')->with('success', 'Beneficiary Added!');
+
+            }catch(Exception $e){
+                DB::rollBack();
+
+                return response()->json([
+                    'success' => false,
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTrace(),
+            ], 500);
         }
-
-            DB::commit();
-            return redirect()->route('beneficiary.index')->with('success', 'Beneficiary Added!');
-
-        }catch(Exception $e){
-            DB::rollBack();
-
-            return response()->json([
-                'success' => false,
-            'message' => 'Something went wrong.',
-            'error' => $e->getMessage(),
-            'trace' => $e->getTrace(),
-        ], 500);
-        }
-
-        
     }
 
     /**
