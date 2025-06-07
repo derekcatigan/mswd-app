@@ -32,7 +32,6 @@
                 <p class="text-xs text-gray-500 mt-0">Sogod, Southern Leyte</p>
             </div>
 
-
             <div id="responseMessage" class="my-4 hidden">
                 <div id="alertBox">
                     <svg>
@@ -40,7 +39,6 @@
                     <span id="alertMessage"></span>
                 </div>
             </div>
-
 
             {{-- Login Form --}}
             <form id="loginForm" class="space-y-3 fade-in-up">
